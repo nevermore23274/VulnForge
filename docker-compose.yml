@@ -1,0 +1,26 @@
+services:
+  vulnforge:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cli
+    container_name: vulnforge-dev
+    volumes:
+      - ./:/app
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: bash
+
+  trainer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.training
+      args:
+        UNSLOTH_DEVICE: cpu  # Change to cuda for GPU environments
+    container_name: trainer
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    command: bash

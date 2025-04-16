@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+FROM golang:1.21
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install useful packages + git for go get, and add Cobra
+RUN apt-get update && \
+    apt-get install -y vim bash git && \
+    rm -rf /var/lib/apt/lists/* && \
+    go install github.com/spf13/cobra-cli@latest
+
+# Make sure Go bin is in PATH
+ENV PATH=$PATH:/go/bin
+
+# Default command is to start a bash shell
+CMD [ "bash" ]
