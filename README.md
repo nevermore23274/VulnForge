@@ -30,12 +30,19 @@ docker compose build --build-arg UNSLOTH_DEVICE=cpu vulnforge trainer
 
 ### 2. Run VulnForge to scrape and convert
 ```bash
-docker compose run --rm vulnforge scrape --tag honeypot
+docker compose run --rm vulnforge go run ./main.go scrape --tag honeypot
+```
 
+```bash
 # Replace with actual date or glob wildcard
 FILENAME=$(ls output/threatfox_iocs_*.jsonl | head -n1)
+```
 
-docker compose run --rm vulnforge convert   --infile $FILENAME   --outfile output/quick_dataset.json   --limit 20
+```bash
+docker compose run --rm vulnforge go run ./main.go convert \
+  --infile $FILENAME \
+  --outfile output/quick_dataset.json \
+  --limit 20
 ```
 
 ### 3. Train a model using the trainer container
